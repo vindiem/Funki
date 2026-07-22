@@ -1,5 +1,9 @@
-module com.example {
+module com.funki {
     requires javafx.controls;
-    requires javafx.graphics;
+    requires javafx.fxml;
+
     exports com.funki;
+    exports com.funki.controller;
+
+    opens com.funki.controller to javafx.fxml;
 }

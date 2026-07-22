@@ -3,79 +3,69 @@ package com.funki.controller;
 import com.funki.model.Flashcard;
 import com.funki.service.FlashcardService;
 
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 public class MainController {
 
     private final FlashcardService service = new FlashcardService();
 
-    private final Label frontLabel = new Label();
-    private final Label backLabel = new Label();
+    @FXML
+    private Label wordLabel;
+    
+    @FXML
+    private Label currentCardNumber;
 
-    private final Button showAnswerButton = new Button("Show Answer");
-    private final Button nextCardButton = new Button("Next Card");
-    private final Button prevCardButton = new Button("Prevoius Card");
-    private final Button shuffleCardButton = new Button("Shuffle Card");
+    private enum MoveType {
+        NEXT, 
+        PREV,
+        SHUFFLE
+    }
 
-    private final VBox root = new VBox(20);
+    private boolean flipped = false;
 
-    public MainController() {
-
-        frontLabel.setFont(new Font(28));
-        backLabel.setFont(new Font(22));
-
-        root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(
-                frontLabel,
-                backLabel,
-                showAnswerButton,
-                nextCardButton,
-                prevCardButton,
-                shuffleCardButton
-        );
-
+    @FXML
+    private void initialize() {
         loadCard();
-
-        showAnswerButton.setOnAction(e -> showAnswer());
-        nextCardButton.setOnAction(e -> nextCard());
-        prevCardButton.setOnAction(e -> prevCard());
-        shuffleCardButton.setOnAction(e -> shuffleCard());
     }
 
     private void loadCard() {
         Flashcard card = service.getCurrentCard();
+        wordLabel.setText(card.getFront());
+        currentCardNumber.setText("Card: " + (service.getCurrentCardIndex() + 1) + " / " + service.getCardsCount());
 
-        frontLabel.setText(card.getFront());
-        backLabel.setText("");
+        flipped = false;
+        
     }
 
+    @FXML
     private void showAnswer() {
         Flashcard card = service.getCurrentCard();
 
-        backLabel.setText(card.getBack());
+        flipped = !flipped;
+
+        wordLabel.setText(
+            flipped ? card.getBack() : card.getFront()
+        );
     }
 
-    private void nextCard() {
-        service.nextCard();
+    private void moveCard(MoveType s) {
+        switch (s) {
+            case MoveType.NEXT -> service.nextCard();
+            case MoveType.PREV -> service.prevCard();
+            case MoveType.SHUFFLE -> service.shuffleCard();
+            default -> throw new AssertionError();
+        }
         loadCard();
     }
 
-    private void prevCard() {
-        service.prevCard();
-        loadCard();
-    }
+    @FXML
+    private void nextCard() { moveCard(MoveType.NEXT); }
 
-    private void shuffleCard() {
-        service.shuffleCard();
-        loadCard();
-    }
+    @FXML
+    private void prevCard() { moveCard(MoveType.PREV); }
+    
+    @FXML
+    private void shuffleCard () { moveCard(MoveType.SHUFFLE); }
 
-    public Parent getRoot() {
-        return root;
-    }
 }

@@ -11,6 +11,8 @@ public class FlashcardService {
     private final List<Flashcard> cards = new ArrayList<>();
     private int currentIndex = 0;
 
+    private final Random random = new Random();
+
     public FlashcardService() {
         cards.add(new Flashcard("apple", "яблоко"));
         cards.add(new Flashcard("dog", "собака"));
@@ -40,9 +42,15 @@ public class FlashcardService {
     }
 
     public void shuffleCard() {
-        Random random = new Random();
-        int randomNumber = random.nextInt(0, cards.size() - 1);
-
+        int randomNumber = random.nextInt(0, cards.size());
         currentIndex = randomNumber;
+    }
+
+    public int getCurrentCardIndex() {
+        return currentIndex;
+    }
+
+    public int getCardsCount() {
+        return cards.size();
     }
 }
