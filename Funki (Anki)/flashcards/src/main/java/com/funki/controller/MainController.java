@@ -2,13 +2,14 @@ package com.funki.controller;
 
 import com.funki.model.Flashcard;
 import com.funki.service.FlashcardService;
+import com.funki.service.StudySession;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class MainController {
-
     private final FlashcardService service = new FlashcardService();
+    private final StudySession session = new StudySession(service);
 
     @FXML
     private Label wordLabel;
@@ -22,38 +23,35 @@ public class MainController {
         SHUFFLE
     }
 
-    private boolean flipped = false;
-
     @FXML
     private void initialize() {
         loadCard();
     }
 
     private void loadCard() {
-        Flashcard card = service.getCurrentCard();
+        Flashcard card = session.getCurrentCard();
         wordLabel.setText(card.getFront());
-        currentCardNumber.setText("Card: " + (service.getCurrentCardIndex() + 1) + " / " + service.getCardsCount());
+        currentCardNumber.setText("Card: " + (session.getCurrentIndex() + 1) + " / " + service.getCardsCount());
 
-        flipped = false;
-        
+        session.resetCard();
     }
 
     @FXML
     private void showAnswer() {
-        Flashcard card = service.getCurrentCard();
+        Flashcard card = session.getCurrentCard();
 
-        flipped = !flipped;
+        session.flipCard();
 
         wordLabel.setText(
-            flipped ? card.getBack() : card.getFront()
+            session.isFlipped() ? card.getBack() : card.getFront() 
         );
     }
 
     private void moveCard(MoveType s) {
         switch (s) {
-            case MoveType.NEXT -> service.nextCard();
-            case MoveType.PREV -> service.prevCard();
-            case MoveType.SHUFFLE -> service.shuffleCard();
+            case MoveType.NEXT -> session.nextCard();
+            case MoveType.PREV -> session.prevCard();
+            case MoveType.SHUFFLE -> session.shuffleCard();
             default -> throw new AssertionError();
         }
         loadCard();

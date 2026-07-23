@@ -9,11 +9,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
-
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/funki/view/main.fxml"));
-        Parent root = loader.load();
+        FXMLLoader MainViewFXMLLoader = new FXMLLoader(App.class.getResource("/com/funki/view/MainView.fxml"));
+        Parent root = MainViewFXMLLoader.load();
         Scene scene = new Scene(root, 500, 400);
         
         scene.getStylesheets().add(App.class.getResource("/com/funki/css/style.css").toExternalForm());

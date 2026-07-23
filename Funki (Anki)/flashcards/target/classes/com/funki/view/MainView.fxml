@@ -10,6 +10,7 @@
     <Label fx:id="wordLabel" styleClass="word-label"/>
     <Label fx:id="currentCardNumber" styleClass="counter-label"/>
 
+
     <Button text="Flip" onAction="#showAnswer"/>
     <Button text="Next" onAction="#nextCard"/>
     <Button text="Prev" onAction="#prevCard"/>

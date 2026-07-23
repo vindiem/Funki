@@ -1,6 +1,9 @@
 /Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/service/FlashcardService.java
+/Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/service/StudySession.java
+/Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/service/StatisticsService.java
 /Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/model/Flashcard.java
 /Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/SystemInfo.java
 /Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/App.java
+/Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/service/FileService.java
 /Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/module-info.java
 /Users/alohadance/General/Console applications/Funki/Funki (Anki)/flashcards/src/main/java/com/funki/controller/MainController.java
