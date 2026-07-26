@@ -5,15 +5,9 @@ import java.util.List;
 import com.funki.model.Flashcard;
 
 public class FlashcardService {
-    private final List<Flashcard> cards = new ArrayList<>();
+    private List<Flashcard> cards = new ArrayList<>();
 
-    public FlashcardService() {
-        cards.add(new Flashcard("apple", "яблоко"));
-        cards.add(new Flashcard("dog", "собака"));
-        cards.add(new Flashcard("house", "дом"));
-        cards.add(new Flashcard("book", "книга"));
-        cards.add(new Flashcard("computer", "компьютер"));
-    }
+    public FlashcardService() { setCards(cards); };
 
     public Flashcard getCard(int index) {
         return cards.get(index);
@@ -21,5 +15,9 @@ public class FlashcardService {
 
     public int getCardsCount() {
         return cards.size();
+    }
+
+    public void setCards(List<Flashcard> flashcards) {
+        cards = flashcards;
     }
 }

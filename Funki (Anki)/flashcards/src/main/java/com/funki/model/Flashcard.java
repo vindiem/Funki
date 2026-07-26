@@ -1,7 +1,6 @@
 package com.funki.model;
 
 public class Flashcard {
-
     private final String front;
     private final String back;
 

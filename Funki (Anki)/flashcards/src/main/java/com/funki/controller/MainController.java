@@ -8,9 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class MainController {
-    private final FlashcardService service = new FlashcardService();
-    private final StudySession session = new StudySession(service);
-
     @FXML
     private Label wordLabel;
     
@@ -23,38 +20,23 @@ public class MainController {
         SHUFFLE
     }
 
-    @FXML
-    private void initialize() {
-        loadCard();
-    }
-
-    private void loadCard() {
-        Flashcard card = session.getCurrentCard();
-        wordLabel.setText(card.getFront());
-        currentCardNumber.setText("Card: " + (session.getCurrentIndex() + 1) + " / " + service.getCardsCount());
-
-        session.resetCard();
-    }
+    private final FlashcardService service = new FlashcardService();
+    private final StudySession session = new StudySession(service);
 
     @FXML
-    private void showAnswer() {
+    private void initialize() { 
+        // session.parseDeck(); 
+        // loadCard(); 
+    }
+    
+    @FXML
+    public void showAnswer() {
         Flashcard card = session.getCurrentCard();
-
         session.flipCard();
 
         wordLabel.setText(
             session.isFlipped() ? card.getBack() : card.getFront() 
         );
-    }
-
-    private void moveCard(MoveType s) {
-        switch (s) {
-            case MoveType.NEXT -> session.nextCard();
-            case MoveType.PREV -> session.prevCard();
-            case MoveType.SHUFFLE -> session.shuffleCard();
-            default -> throw new AssertionError();
-        }
-        loadCard();
     }
 
     @FXML
@@ -66,4 +48,28 @@ public class MainController {
     @FXML
     private void shuffleCard () { moveCard(MoveType.SHUFFLE); }
 
+    // Methods
+    private void moveCard(MoveType s) {
+        switch (s) {
+            case MoveType.NEXT -> session.nextCard();
+            case MoveType.PREV -> session.prevCard();
+            case MoveType.SHUFFLE -> session.shuffleCard();
+            default -> throw new AssertionError();
+        }
+        loadCard();
+    }
+
+    private void loadCard() {
+        try {
+            Flashcard card = session.getCurrentCard();
+            wordLabel.setText(card.getFront());
+            currentCardNumber.setText("Card: " + (session.getCurrentIndex() + 1) + " / " + service.getCardsCount());
+
+            session.resetCard();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    
 }
