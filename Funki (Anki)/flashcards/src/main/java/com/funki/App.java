@@ -13,9 +13,9 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader MainViewFXMLLoader = new FXMLLoader(App.class.getResource("/com/funki/view/MainView.fxml"));
         Parent root = MainViewFXMLLoader.load();
-        Scene scene = new Scene(root, 500, 400);
+        Scene scene = new Scene(root, 700, 400);
         
-        scene.getStylesheets().add(App.class.getResource("/com/funki/css/style.css").toExternalForm());
+        scene.getStylesheets().add(App.class.getResource("/com/funki/css/style.fx.css").toExternalForm());
 
         stage.setTitle("Flashcards");
         stage.setScene(scene);

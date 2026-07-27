@@ -20,4 +20,8 @@ public class FlashcardService {
     public void setCards(List<Flashcard> flashcards) {
         cards = flashcards;
     }
+
+    public boolean hasCards() {
+        return !cards.isEmpty(); 
+    }
 }

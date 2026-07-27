@@ -7,11 +7,6 @@ import java.util.List;
 import com.funki.model.Flashcard;
 
 public class StudySession {
-    // TODO:
-    // - Handle empty decks to prevent IndexOutOfBoundsException.
-    // - Move CSV loading out of StudySession (StudySession should not know where cards come from).
-    
-    private CSVDeckLoader csvDeckLoader = new CSVDeckLoader("/com/funki/decks/example_deck.csv");
     private final FlashcardService service;
 
     private int currentIndex = 0;
@@ -68,12 +63,6 @@ public class StudySession {
 
         Collections.shuffle(shuffleOrder);
         shufflePosition = 0;
-    }
-
-    // CSV deck loader
-    public void parseDeck() {
-        System.out.println("Deck was parsed!");
-        service.setCards(csvDeckLoader.parseDeck());
     }
 
 }
