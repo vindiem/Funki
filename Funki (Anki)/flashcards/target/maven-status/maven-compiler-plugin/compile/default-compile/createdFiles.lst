@@ -1,0 +1,11 @@
+com/funki/controller/MainController.class
+com/funki/Launcher.class
+com/funki/service/FlashcardService.class
+com/funki/App.class
+com/funki/model/Flashcard.class
+com/funki/service/StatisticsService.class
+module-info.class
+com/funki/service/StudySession.class
+com/funki/SystemInfo.class
+com/funki/controller/SettingsController.class
+com/funki/service/CSVDeckLoader.class

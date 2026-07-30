@@ -65,4 +65,11 @@ public class StudySession {
         shufflePosition = 0;
     }
 
+    // Other
+    public void resetCardsAfterDeckLoaded() {
+        currentIndex = 0;
+        shufflePosition = 0;
+        shuffleOrder.clear();
+    }
+
 }

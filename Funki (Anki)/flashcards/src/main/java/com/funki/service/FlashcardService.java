@@ -9,19 +9,14 @@ public class FlashcardService {
 
     public FlashcardService() { setCards(cards); };
 
-    public Flashcard getCard(int index) {
-        return cards.get(index);
-    }
+    public Flashcard getCard(int index) { return cards.get(index); }
 
-    public int getCardsCount() {
-        return cards.size();
-    }
+    public int getCardsCount() { return cards.size(); }
 
-    public void setCards(List<Flashcard> flashcards) {
-        cards = flashcards;
-    }
+    public void setCards(List<Flashcard> flashcards) { cards = flashcards; }
 
-    public boolean hasCards() {
-        return !cards.isEmpty(); 
-    }
+    public List<Flashcard> getCards() { return cards; }
+
+    public boolean hasCards() { return !cards.isEmpty(); }
+    
 }

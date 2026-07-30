@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.Priority?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.funki.controller.DeckEditorController"
+            styleClass="main-root">
+    <center>
+        <VBox spacing="15" alignment="CENTER" styleClass="center-pane">
+            <TableView fx:id="cardsTable"
+                        VBox.vgrow="ALWAYS"
+                        prefWidth="550"
+                        prefHeight="350">
+                <columns>
+                    <TableColumn fx:id="frontColumn"
+                                        text="Front"/>
+                    <TableColumn fx:id="backColumn"
+                                        text="Back"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>
+
