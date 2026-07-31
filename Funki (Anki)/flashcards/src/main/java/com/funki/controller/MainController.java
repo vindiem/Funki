@@ -3,178 +3,106 @@ package com.funki.controller;
 import java.io.File;
 import java.io.IOException;
 
-import com.funki.App;
-import com.funki.model.Flashcard;
 import com.funki.service.CSVDeckLoader;
 import com.funki.service.FlashcardService;
-import com.funki.service.StudySession;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class MainController {
     @FXML
-    private Label wordLabel;
-    
-    @FXML
-    private Label currentCardNumber;
+    private StackPane contentPane;
 
-    @FXML
-    private Label deckPathField;
-
-    private final CSVDeckLoader csvDeckLoader = new CSVDeckLoader();
     private final FlashcardService service = new FlashcardService();
-    private final StudySession session = new StudySession(service);
+    private final CSVDeckLoader deckLoader = new CSVDeckLoader();
+
+    private DeckEditorController deckEditorController;
+    private StudyController studyController;
+
+    private String currentDeckName;
 
     @FXML
-    private void initialize() { 
-        loadDeck(); 
-
-        if (!service.hasCards()) { return; }
-        loadCard(); 
-    }
-    
-    @FXML
-    public void showAnswer() {
-        if (!service.hasCards()) { return; }
-
-        Flashcard card = session.getCurrentCard();
-        session.flipCard();
-
-        wordLabel.setText(
-            session.isFlipped() ? 
-                card.getBack() : 
-                card.getFront() 
-        );
+    private void initialize() throws IOException {
+        showStudyView();
     }
 
     @FXML
-    private void nextCard() { 
-        if (!service.hasCards()) { return; }
+    private void showStudyView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/funki/view/StudyView.fxml"));
 
-        session.nextCard();
-        loadCard();
+        Parent view = loader.load();
+
+        studyController = loader.getController();
+        studyController.setService(service);
+
+        if (currentDeckName != null) {
+            studyController.onDeckLoaded(currentDeckName);
+        }
+
+        contentPane.getChildren().setAll(view);
     }
 
     @FXML
-    private void prevCard() { 
-        if (!service.hasCards()) { return; }
+    private void showDeckEditor() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/funki/view/DeckEditor.fxml"));
 
-        session.prevCard();
-        loadCard();
-    }
-    
-    @FXML
-    private void shuffleCard () { 
-        if (!service.hasCards()) { return; }
+        Parent view = loader.load();
 
-        session.shuffleCard();
-        loadCard();
+        deckEditorController = loader.getController();
+        deckEditorController.setService(service);
+
+        if (service.hasCards()) {
+            deckEditorController.refresh();
+        }
+
+        contentPane.getChildren().setAll(view);
     }
 
     @FXML
     private void chooseDeck() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open Flashcard Deck");
+
         chooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter(
-                "CSV Files",
-                "*.csv"
-            )
+            new FileChooser.ExtensionFilter("CSV files", "*.csv")
         );
+        File file = chooser.showOpenDialog(contentPane.getScene().getWindow());
 
-        File file = chooser.showOpenDialog(wordLabel.getScene().getWindow());
+        if (file != null) {
+            openDeck(file);
+        }
+    }
 
-        if (file == null) { return; }
+    private void openDeck(File file) {
+        service.setCards(deckLoader.parseDeck(file));
+        currentDeckName = file.getName();
 
-        loadDeck(file);
-        loadCard();
+        if (studyController != null) {
+            studyController.onDeckLoaded(currentDeckName);
+        }
+
+        if (deckEditorController != null) {
+            deckEditorController.refresh();
+        }
     }
 
     @FXML
-    private void createNewDeck() {
-    }
-
-    @FXML
-    private void saveDeck() {
-    }
-
-    @FXML
-    private void saveDeckAs() {
-    }
-
-    @FXML
-    private void exitApplication() { Platform.exit(); }
-
-    @FXML
-    private void setGreyTheme() {
-    }
-
-    @FXML
-    private void setDarkTheme() {
-    }
-
-    @FXML
-    private void setLightTheme() {
-    }
-
-    @FXML
-    private void setSystemTheme() {
+    private void exitApplication() {
+        javafx.application.Platform.exit();
     }
 
     @FXML
     private void about() {
+        // TODO
     }
 
     @FXML
-    private void restartSession() { session.resetCardsAfterDeckLoaded(); }
-
-    @FXML
-    private void openDeckEditor() throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/funki/view/DeckEditor.fxml"));
-
-        Parent root = loader.load();
-        Stage stage = new Stage();
-
-        DeckEditorController deckEditorController = loader.getController();
-        deckEditorController.setService(service);
-
-        stage.setTitle("Deck Editor");
-        stage.setScene(new Scene(root, 700, 500));
-
-        root.getStylesheets().add(App.class.getResource("/com/funki/css/style.fx.css").toExternalForm());
-
-        stage.show();
-        
+    private void setGreyTheme() {
+        // TODO
     }
-
-    // Methods
-    private void loadCard() {
-        Flashcard card = session.getCurrentCard();
-        wordLabel.setText(card.getFront());
-        currentCardNumber.setText("Card: " + (session.getCurrentIndex() + 1) + " / " + service.getCardsCount());
-
-        session.resetCard();
-    }
-
-    private void loadDeck() {
-        session.resetCardsAfterDeckLoaded();
-        System.out.println("Tried to parse deck!");
-        service.setCards(csvDeckLoader.parseDeck());
-    }
-
-    private void loadDeck(File file) {
-        session.resetCardsAfterDeckLoaded();
-        System.out.println("Tried to parse deck trough file!");
-        service.setCards(csvDeckLoader.parseDeck(file));
-        
-        deckPathField.setText(file.getName());
-    }
-
 }

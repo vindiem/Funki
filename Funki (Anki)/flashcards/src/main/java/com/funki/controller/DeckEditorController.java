@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 
 public class DeckEditorController {
     private FlashcardService service;
-    
+
     @FXML
     private TableView<Flashcard> cardsTable;
 
@@ -22,17 +22,41 @@ public class DeckEditorController {
 
     @FXML
     private void initialize() {
-        frontColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getFront()));
-        backColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getBack()));
+        frontColumn.setCellValueFactory(
+                cell -> new SimpleStringProperty(cell.getValue().getFront())
+        );
+
+        backColumn.setCellValueFactory(
+                cell -> new SimpleStringProperty(cell.getValue().getBack())
+        );
     }
 
     public void setService(FlashcardService service) {
         this.service = service;
-        setCardsInCardsTable();
+        refresh();
     }
 
-    private void setCardsInCardsTable() {
+    public void refresh() {
+        if (service == null) {
+            cardsTable.getItems().clear();
+            return;
+        }
+
         cardsTable.getItems().setAll(service.getCards());
     }
 
+    @FXML
+    private void addCard() {
+        // TODO
+    }
+
+    @FXML
+    private void removeSelectedCard() {
+        // TODO
+    }
+
+    @FXML
+    private void saveDeck() {
+        // TODO
+    }
 }

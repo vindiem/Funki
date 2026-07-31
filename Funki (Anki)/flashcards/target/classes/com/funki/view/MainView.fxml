@@ -1,70 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.funki.controller.MainController"
             styleClass="main-root">
-
-    <MenuBar useSystemMenuBar="true">
-        <Menu text="File">
-            <!--<MenuItem text="New Deck" onAction="#createNewDeck"/>-->
-            <MenuItem text="Open Deck..." onAction="#chooseDeck"/>
-            <!--<MenuItem text="Save Deck" onAction="#saveDeck"/>-->
-            <!--<MenuItem text="Save Deck As..." onAction="#saveDeckAs"/>-->
-            <MenuItem text="Open Deck Editor..." onAction="#openDeckEditor"/>
-            <MenuItem text="Exit" onAction="#exitApplication"/>
-        </Menu>
-        <Menu text="Study">
-            <MenuItem text="Flip Card" onAction="#showAnswer"/>
-            <MenuItem text="Previous Card" onAction="#prevCard"/>
-            <MenuItem text="Next Card" onAction="#nextCard"/>
-            <MenuItem text="Shuffle Cards" onAction="#shuffleCard"/>
-            <!--<MenuItem text="Restart Session" onAction="#restartSession"/>-->
-        </Menu>
-        <Menu text="View">
-            <MenuItem text="Grey Theme" onAction="#setGreyTheme"/>
-            <!--<MenuItem text="Dark Theme" onAction="#setDarkTheme"/>
-            <MenuItem text="Light Theme" onAction="#setLightTheme"/>
-            <MenuItem text="System Theme" onAction="#setSystemTheme"/>-->
-        </Menu>
-        <Menu text="Help">
-            <MenuItem text="About" onAction="#about"/>
-        </Menu>
-    </MenuBar>
-    
     <top>
-        <HBox alignment="CENTER_LEFT"
-              styleClass="top-bar">
-            <VBox spacing="5">
-                <HBox.hgrow>
-                    <Priority fx:constant="ALWAYS"/>
-                </HBox.hgrow>
-                <Label text="Flashcards" styleClass="title"/>
-                <Label fx:id="deckPathField" text="No deck loaded" styleClass="deck-label"/>
-            </VBox>
-        </HBox>
+        <MenuBar useSystemMenuBar="true">
+            <Menu text="File">
+                <MenuItem text="Open Deck..." onAction="#chooseDeck"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Study" onAction="#showStudyView"/>
+                <MenuItem text="Deck Editor" onAction="#showDeckEditor"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Exit" onAction="#exitApplication"/>
+            </Menu>
+            <Menu text="View">
+                <MenuItem text="Grey Theme" onAction="#setGreyTheme"/>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="About" onAction="#about"/>
+            </Menu>
+        </MenuBar>
     </top>
-    
     <center>
-        <VBox alignment="CENTER"
-              styleClass="center-pane">
-            <StackPane styleClass="card">
-                <Label fx:id="wordLabel" text="Open a deck" styleClass="word-label"/>
-            </StackPane>
-            <Button text="Flip" onAction="#showAnswer"/>
-            <Label fx:id="currentCardNumber" text="0 / 0" styleClass="counter-label"/>
-        </VBox>
+        <StackPane fx:id="contentPane"/>
     </center>
-    
-    <bottom>
-        <HBox alignment="CENTER"
-              styleClass="bottom-bar">
-            <Button text="Previous" onAction="#prevCard"/>
-            <Button text="Shuffle" onAction="#shuffleCard"/>
-            <Button text="Next" onAction="#nextCard"/>
-        </HBox>
-    </bottom>
 </BorderPane>

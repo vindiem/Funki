@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.funki.controller.StudyController"
+            styleClass="main-root">
+            
+    <top>
+        <HBox alignment="CENTER_LEFT"
+              styleClass="top-bar">
+            <VBox spacing="5">
+                <HBox.hgrow>
+                    <Priority fx:constant="ALWAYS"/>
+                </HBox.hgrow>
+                <Label text="Flashcards" styleClass="title"/>
+                <Label fx:id="deckPathField" text="No deck loaded" styleClass="deck-label"/>
+            </VBox>
+        </HBox>
+    </top>
+    
+    <center>
+        <VBox alignment="CENTER"
+              styleClass="center-pane">
+            <StackPane styleClass="card">
+                <Label fx:id="wordLabel" text="Open a deck" styleClass="word-label"/>
+            </StackPane>
+            <Button text="Flip" onAction="#showAnswer"/>
+            <Label fx:id="currentCardNumber" text="0 / 0" styleClass="counter-label"/>
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox alignment="CENTER"
+              styleClass="bottom-bar">
+            <Button text="Previous" onAction="#prevCard"/>
+            <Button text="Shuffle" onAction="#shuffleCard"/>
+            <Button text="Next" onAction="#nextCard"/>
+        </HBox>
+    </bottom>
+</BorderPane>
